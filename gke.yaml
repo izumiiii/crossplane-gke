@@ -1,0 +1,22 @@
+apiVersion: container.gcp.crossplane.io/v1beta2
+kind: Cluster
+metadata:
+  name: example-cluster
+spec:
+  forProvider:
+    initialClusterVersion: "1.24"
+    location: us-west2
+    autoscaling:
+      autoprovisioningNodePoolDefaults:
+        serviceAccount: sa-test
+    networkConfig:
+      enableIntraNodeVisibility: true
+    loggingService: logging.googleapis.com/kubernetes
+    monitoringService: monitoring.googleapis.com/kubernetes
+    addonsConfig:
+      gcePersistentDiskCsiDriverConfig:
+        enabled: true
+    network: "default"
+  writeConnectionSecretToRef:
+    namespace: default
+    name: default
